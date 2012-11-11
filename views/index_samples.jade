@@ -1,0 +1,13 @@
+header
+  a(href="/").button.header_button.header_button_save.transition_all3 back to editor
+article
+  div.samples 
+    each val, key in samplesData
+      div.sample_item(id="view_#{key}")
+        div.sample_item_content
+          div.sample_item_cover.transition_all3
+          iframe
+          a#t1(href="/#{key}").transition_all3 #{val._id}   
+    each val, key in samplesData
+      script!= val 
+footer
