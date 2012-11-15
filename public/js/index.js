@@ -116,7 +116,7 @@ var core = {
 
     that.initAudioStuff();
 
-    this.scene = $('<div>').addClass('.scene').appendTo('body .article');
+    this.scene = $('<div>').addClass('scene').appendTo('body article');
     scene.init(this.scene);
     tap.init(this.scene);
 
@@ -388,7 +388,7 @@ var core = {
 
 
     }
-    //updateSpectrum();
+    updateSpectrum();
 
 
 
