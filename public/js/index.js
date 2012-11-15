@@ -115,7 +115,12 @@ var core = {
     // }
 
     that.initAudioStuff();
-    scene.init();
+
+    this.scene = $('<div>').addClass('.scene').appendTo('body .article');
+    scene.init(this.scene);
+    tap.init(this.scene);
+
+
     //that.addImage('/images/image.jpg');
 
 

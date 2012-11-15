@@ -35,7 +35,7 @@
 .scene{
   width: 660px;
   height: 500px;
-
+  position: relative;
   display: block;
   margin: 0 auto;
   border: 10px solid white;
@@ -119,7 +119,7 @@
 
 
 
-.tap_container{
+.tap_container, .crazy_objects_container{
   width: 100%;
   height: 100%;
   position: absolute;
