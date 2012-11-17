@@ -7,13 +7,13 @@ var cssStructure = mongoose.model('cssStructure');
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'CSS3 generator'})
+  res.render('index', { title: 'MOVE IT!'})
 };
 
 exports.sample = function(req, res){
  //res.send(req.params.id);
   //cssStructure.findById(bsonShortify.decode(req.params.id), function (err, doc){
-    res.render('index', {enjoyid:req.params.id,title: 'CSS3 generator, example'});
+    res.render('index', {enjoyid:req.params.id,title: 'MOVE IT!'});
   //});
 };
 
@@ -36,6 +36,7 @@ exports.samples = function(req, res){
 };
 
 exports.jsonSave = function(req, res){
+  //console.log(3333333)
   var instance = new cssStructure();
   instance.title = 'wazzza';
   instance.data = req.body;
@@ -44,8 +45,8 @@ exports.jsonSave = function(req, res){
     console.log('----saved item bson = '+instance._id);
     var enjoyid = bsonShortify.encode(instance._id);
     console.log('----saved item enjoyid = '+enjoyid);
-    //res.send({enjoyid:enjoyid});
-    res.send('Privet Nillll');
+    res.send({enjoyid:enjoyid});
+    //res.send('Privet Nillll');
     console.log('--saved! ;)');
   });
   //res.render('index', { title: 'Express' })
@@ -54,9 +55,9 @@ exports.jsonSave = function(req, res){
 
 exports.jsonGet = function(req, res){
   cssStructure.findById(bsonShortify.decode(req.params.id), function (err, doc){
-  console.log(bsonShortify.decode(req.params.id))
+  //console.log(bsonShortify.decode(req.params.id))
     res.contentType('json');
-    res.send('enjoyCSS.points["'+req.params.id+'"] = '+JSON.stringify(doc.data));
+    res.send('var CURRENT_DATA = '+JSON.stringify(doc.data));
   });
 
 };
