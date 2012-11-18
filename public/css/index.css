@@ -1,7 +1,19 @@
+html, body{
+  padding: 0;
+  margin:0;
+  font-family: Arial;
+}
+
+ html{
+  height: 100%;
+  width: 100%;
+ }
+
  body{
     background: url('../images/carbon_fibre.png');
-    font-family:Arial;
     height: 100%;
+    display: table;
+    table-layout: fixed;
   }
 
 
@@ -35,9 +47,11 @@ header{
 .scene{
   width: 660px;
   height: 500px;
-  position: relative;
+  top:0;
+  left:50%;
+  margin-left: -330px;
+  position: absolute;
   display: block;
-  margin: 0 auto;
   border: 10px solid white;
   box-shadow: 0 0 20px 10px rgba(0,0,0,0.5);
   z-index: 0;
@@ -56,10 +70,12 @@ header{
     width: 612px;
     padding: 50px;
     height: 100%;
-    position: absolute;
+    /*position: absolute;*/
     top: 0;
     right: 0;
-    display: block;
+    display: table-cell;
+    z-index: 900;
+    position: relative;
   }
 
 /*  aside:before{
@@ -73,6 +89,14 @@ header{
     opacity: 0.9;
   }
 */
+
+article{
+  width: 100%;
+  /*padding-right: 300px;*/
+  display: table-cell;
+  position: relative;
+
+}
 
   article canvas{
      width: 640px;
@@ -95,27 +119,34 @@ header{
   }
 
   .gear{
-    width: 96px;
-    height: 96px;
+    width: 300px;
+    height: 300px;
     position: absolute;
-    top: 40px;
-    left: -96px;
-    background: rgba(0,0,0,0.6);
-    border-radius: 10px 0 0 10px;
+    top: 50%;
+    margin-top: -150px;
+    text-align: center;
+    left: 0;
+    color: white;
+   padding: 26px;
+
+    font-size: 40px;
+
+/* Safari */
+-webkit-transform: rotate(-90deg);
+
+/* Firefox */
+-moz-transform: rotate(-90deg);
+
+/* IE */
+-ms-transform: rotate(-90deg);
+
+/* Opera */
+-o-transform: rotate(-90deg);
+
+
+
   }
 
-  .gear:after{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: url('../images/gear.png');
-    background-size: cover;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    content: '';
-  }
 
 
 .tap_container {
@@ -163,10 +194,12 @@ header{
 
 .c{display: none}
 .c ~ .jslider{margin-top:20px;}
-.c[data-letter='i']    ~ .jslider .jslider-bg i.v{background: rgba(20,80,220,1);}
-.c[data-letter='a']    ~ .jslider .jslider-bg i.v{background: rgba(220,0,20,1);}
-.c[data-letter='o']    ~ .jslider .jslider-bg i.v{background: rgba(255,70,0,1);}
-.c[data-letter='bass'] ~ .jslider .jslider-bg i.v{background: rgba(0,0,0,1);}
+.c[data-letter='i']      ~ .jslider .jslider-bg i.v{background: rgba(20,80,220,1);}
+.c[data-letter='a']      ~ .jslider .jslider-bg i.v{background: rgba(220,0,20,1);}
+.c[data-letter='o']      ~ .jslider .jslider-bg i.v{background: rgba(255,70,0,1);}
+.c[data-letter='bass']   ~ .jslider .jslider-bg i.v{background: rgba(0,0,0,1);}
+.c[data-letter='strobo'] ~ .jslider .jslider-bg i.v{background: rgba(255,70,0,1);}
+.c[data-letter='middle'] ~ .jslider .jslider-bg i.v{background: rgba(255,190,0,1);}
 
 
 /*            {rgb: '0,0,0',       title:'Black'},
@@ -236,8 +269,7 @@ header{
     .orange.button { -webkit-animation-name: orangePulse; -webkit-animation-duration: 3s; -webkit-animation-iteration-count:infinite; }
     .orangellow.button { -webkit-animation-name: orangellowPulse; -webkit-animation-duration: 5s; -webkit-animation-iteration-count:infinite; }
 
-@font-face {
-  font-family: 'CasinoHandRegular';
+/*@font-face {
   src: url('Casino_Hand-webfont.eot');
   src: url('Casino_Hand-webfont.eot?#iefix') format('embedded-opentype'),
        url('Casino_Hand-webfont.woff') format('woff'),
@@ -246,7 +278,7 @@ header{
   font-weight: normal;
   font-style: normal;
 }
-
+*/
   .button {
     color: #fff;
     text-shadow:0 -1px 1px rgba(0,0,0,0.25);
@@ -258,7 +290,7 @@ header{
     text-align: center;
 /*    border-radius: 6px;*/
     cursor: pointer;
-    font-family: "CasinoHandRegular";
+    /*font-family: "CasinoHandRegular";*/
   }
   .button:hover { color: #fff; text-shadow:0 0px 0px rgba(0,0,0,0.25);}
 

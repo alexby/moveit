@@ -6,12 +6,38 @@ var core = {
     var that = this;
 
     $('.save').on('click',function(){
-      var req = $.post("/json/save",CURRENT_DATA).error(function() { alert("error"); });
+      var req = $.post("json/save",CURRENT_DATA).error(function() { alert("error"); });
       req.success(function(obj){
         //console.log(obj);
         history.pushState(null,null,"/"+obj.enjoyid+window.location.hash);
       });
     });
+
+    $('.gear').on('click', function(){
+      $('aside > div.hh').toggle();
+    });
+
+
+    var url = "http://api.musixmatch.com/ws/1.1/matcher.subtitle.get?q_track=I%20like%20to%20move%20it&q_artist=Reel%202%20Real&apikey=7ed59907a6e751898a3655efd3ae5d57&format=JSONP&callback=?";
+    jQuery.getJSON(url, function(response) {
+      console.log("=========>>",response.message.body.subtitle.subtitle_body);
+      var arr = response.message.body.subtitle.subtitle_body.split('[');
+      console.log(arr);
+      var obj = {};
+      for (var i = 0; i < arr.length; i++) {
+        var timelyrarr = arr[i].split(']');
+        console.log(timelyrarr);
+        var timearr = timelyrarr[0].split(':');
+        //console.log(parseInt(timearr[0])*3600,parseInt(timearr[1]));
+        var time = Math.round(timearr[0])*6000 + Math.round(timearr[1]*100);
+        console.log(time);
+        SUBTITLE.push({time:time, lyr:timelyrarr[1]});
+        //obj[]
+      };
+      if (response.resultsPage) that.processSearchArtist(loc, response.resultsPage);
+
+    });
+
 
 
     that.spectrumCanvas = document.getElementById('spectrum_canvas');
@@ -27,9 +53,6 @@ var core = {
     } else {
       scene.addImage(CURRENT_DATA.url);
     }
-
-
-   //that.initAudioStuff();
 
     $(".c").slider({
       from: 0,
@@ -51,7 +74,7 @@ var core = {
     });
 
     function calcSpectrum(source, channel){
-
+      var slight = (channel==0?10:0)
       var data = new Uint8Array(source.frequencyBinCount);
       source.getByteFrequencyData(data);
 
@@ -76,12 +99,15 @@ var core = {
 
         var ls = 0;
         var ln = 0;
-        for(var j = -10; j <= 10; j++){
+
+
+        for(var j = -slight; j <= slight; j++){
           if(data[i+j]){
             ls += data[i+j];
             ln++;
           }
         }
+
         oSpectrum[i] = Math.round(ls/ln);
       }
 
@@ -137,9 +163,9 @@ var core = {
 
       scene.update(voiceSpectrum,soundSpectrum);
 
-    }
+    };
   }
-}
+};
 
 
 

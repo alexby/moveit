@@ -37,7 +37,7 @@ var tap = {
       that.tapCanvasCtx.drawImage(that.tapVideo[0], 0, 0, that.tapVideo[0].width, that.tapVideo[0].height);
       var url = that.tapCanvas[0].toDataURL('image/png');
       scene.addImage(url);
-      console.log(url)
+      //console.log(url)
       CURRENT_DATA.url = url;
       that.tapContainer.remove();
     }

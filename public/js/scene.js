@@ -9,7 +9,7 @@ var scene = {
         alert(e);
         return;
     }
-
+that.stroboCount = 0;
     that.moveItCrazyItems = [
       {'key':'mouth','object':'<div></div>', originalWidth: 140, originalHeight:80, maxSize: { width:450, height:450 }, minSize: { width:50, height:50 }},
       {'key':'eye1','object':'<div></div>', originalWidth: 80, originalHeight:60, maxSize: { width:450, height:450 }, minSize: { width:50, height:50 }},
@@ -105,19 +105,32 @@ var scene = {
         out = src.swirl(mouth.keydots[0].x, mouth.keydots[0].y, mouth.width/3, (sounds.i*2-1));
         out = src.swirl(mouth.keydots[1].x, mouth.keydots[1].y, mouth.width/3, -(sounds.i*2-1));
 
+        out = src.bulgePinch(eye1.center.x, eye1.center.y, eye1.width/2, sounds.a);
+        out = src.bulgePinch(eye2.center.x, eye2.center.y, eye2.width/2, sounds.a);
 
 
         //out = src.brightnessContrast(sounds.a*0.2, 0);
       } else {
-        console.log(sounds.bass);
+        //console.log(sounds.bass);
         //out = src.zoomBlur(320, 240, sounds.bass/10);
 
-        out = src.bulgePinch(eye1.center.x, eye1.center.y, eye1.width/2, sounds.bass*2-1);
-        out = src.bulgePinch(eye2.center.x, eye2.center.y, eye2.width/2, sounds.bass*2-1);
 
 
         out = src.bulgePinch(320, 240, 600, sounds.bass/5);
-        out = src.vignette(0.32, sounds.bass)
+        out = src.vignette(0.32, sounds.middle*2);
+
+
+
+
+        that.stroboCount++;
+        if(sounds.strobo > 0.5 && that.stroboCount%3 == 0) {
+          sounds.strobo = 0.2;
+        } else {
+          sounds.strobo = 0;
+        }
+        out = src.brightnessContrast(sounds.strobo, -sounds.strobo);
+        out = src.sepia(sounds.strobo);
+        out = src.hueSaturation(sounds.middle/10, 0);
 
 
         //out = src.zoomBlur(320, 240, sounds.bass/10);

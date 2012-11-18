@@ -1,18 +1,19 @@
 header
   div.save.large.green.button Save
 article
-  //div.save.large.green.button Play
-aside
-  //aside(style="display:none")
-  div.gear For geeks
 
-  //canvas(width="256",height="256")#formants_circle_canvas.formants_circle_canvas
-  //canvas(width="256",height="256")#formants_bar_canvas.formants_bar_canvas
-  canvas(width="500",height="256")#spectrum_canvas.spectrum_canvas
-  input.c(value="130;180",data-letter="i",data-channel="0")
-  input.c(value="40;190",data-letter="a",data-channel="0")
-  input.c(value="80;130",data-letter="o",data-channel="0")
-  input.c(value="0;100",data-letter="bass",data-channel="1")
+aside
+  div.gear For geeks
+  div.hh
+    //canvas(width="256",height="256")#formants_circle_canvas.formants_circle_canvas
+    //canvas(width="256",height="256")#formants_bar_canvas.formants_bar_canvas
+    canvas(width="500",height="256")#spectrum_canvas.spectrum_canvas
+    input.c(value="130;180",data-letter="i",data-channel="0")
+    input.c(value="40;190",data-letter="a",data-channel="0")
+    input.c(value="80;130",data-letter="o",data-channel="0")
+    input.c(value="0;24",data-letter="bass",data-channel="1")
+    input.c(value="488;496",data-letter="strobo",data-channel="1")
+    input.c(value="70;75",data-letter="middle",data-channel="1")
 
 footer
 

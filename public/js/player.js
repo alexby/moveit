@@ -54,9 +54,19 @@ var player = {
       },
       onPlay: function() {
         //console.log("! onPlay");
+        console.log(SUBTITLE)
       },
       onPlaying: function(data) {
-        //console.log("! onPlaying", JSON.stringify(data));
+        var time = Math.round(data.current*100) + 240;
+
+
+        for(var i = 0; i < SUBTITLE.length; i++){
+
+           if(SUBTITLE[i].time <= time && SUBTITLE[i+1] && SUBTITLE[i+1].time > time){
+            console.log(SUBTITLE[i].lyr);
+           }
+        }
+        //if(SUBTITLE[time]) console.log(SUBTITLE[time]);
       },
       onFinish: function() {
         //console.log("! onFinish");
