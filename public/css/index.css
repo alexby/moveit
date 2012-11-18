@@ -41,13 +41,13 @@ html, body{
   }
 
 header{
-  height: 60px;
+  height: 0px;
 }
 
 .scene{
   width: 660px;
   height: 500px;
-  top:0;
+  top:100px;
   left:50%;
   margin-left: -330px;
   position: absolute;
@@ -55,6 +55,7 @@ header{
   border: 10px solid white;
   box-shadow: 0 0 20px 10px rgba(0,0,0,0.5);
   z-index: 0;
+  overflow: hidden;
 }
 
   canvas{
@@ -77,6 +78,12 @@ header{
     z-index: 900;
     position: relative;
   }
+
+  aside.hidden .hh{
+    display: none;
+  }
+
+
 
 /*  aside:before{
     width: 100%;
@@ -127,26 +134,31 @@ article{
     text-align: center;
     left: 0;
     color: white;
-   padding: 26px;
+    padding: 26px;
 
     font-size: 40px;
+    display: none;
+    cursor: pointer;
 
-/* Safari */
--webkit-transform: rotate(-90deg);
+    /* Safari */
+    -webkit-transform: rotate(-90deg);
 
-/* Firefox */
--moz-transform: rotate(-90deg);
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
 
-/* IE */
--ms-transform: rotate(-90deg);
+    /* IE */
+    -ms-transform: rotate(-90deg);
 
-/* Opera */
--o-transform: rotate(-90deg);
+    /* Opera */
+    -o-transform: rotate(-90deg);
 
 
 
   }
 
+  aside.hidden .gear{
+    display: block;
+  }
 
 
 .tap_container {
@@ -182,14 +194,18 @@ article{
 
 
 
-.play_button{
-  width: 150px;
+.play{
+  width: 100px;
   height: 100px;
+  border-radius: 50px;
   position: absolute;
-  top: 20px;
+  top: 360px;
   left: 20px;
   z-index: 9999999999;
-  background:red;
+  background-image: url(../images/play.png);
+  background-size: 200px;
+  background-position: 45% 50%;
+  background-repeat: no-repeat;
 }
 
 .c{display: none}
@@ -214,6 +230,10 @@ article{
             {rgb: '220,0,20',    title:'Red'},
             {rgb: '255,70,0',    title:'Orange'},
             {rgb: '255,190,0',   title:'Yellow'}*/
+
+
+
+
 
 
 
@@ -279,14 +299,19 @@ article{
   font-style: normal;
 }
 */
+
+
+
+
+
   .button {
     color: #fff;
     text-shadow:0 -1px 1px rgba(0,0,0,0.25);
     padding: 0 10px;
     font-size: 10px;
     line-height: 40px;
-    height: 40px;
-    font-size: 30px;
+    /*height: 40px;*/
+    font-size: 22px;
     text-align: center;
 /*    border-radius: 6px;*/
     cursor: pointer;
@@ -294,3 +319,81 @@ article{
   }
   .button:hover { color: #fff; text-shadow:0 0px 0px rgba(0,0,0,0.25);}
 
+.face{
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  z-index: 9999999999;
+  border:2px solid white;
+  top:0;
+  left: 0;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
+.subtitle{
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  font-weight: bold;
+  text-shadow: 0 0 4px rgba(0,0,0,1);
+}
+
+.subtitle.fadein{
+   opacity: 0.8;
+
+-moz-transform: scale(1.2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+-webkit-transform: scale(1.2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+-o-transform: scale(1.2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+-ms-transform: scale(1.2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+transform: scale(1.2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+
+    transition:              font-size 2s, width 3s, height 1s, opacity 1s, transform 1s;
+    -moz-transition:         font-size 2s, width 3s, height 1s, opacity 1s, -moz-transform 1s;
+    -webkit-transition:      font-size 2s, width 3s, height 1s, opacity 1s, -webkit-transform 1s;
+    -o-transition:           font-size 2s, width 3s, height 1s, opacity 1s, -o-transform 1s;
+
+}
+
+.subtitle.fade{
+   opacity: 0;
+
+-moz-transform: scale(2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+-webkit-transform: scale(2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+-o-transform: scale(2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+-ms-transform: scale(2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+transform: scale(2) rotate(0deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg) !important;
+
+    transition:              font-size 2s, width 3s, height 1s, opacity 1s, transform 1s;
+    -moz-transition:         font-size 2s, width 3s, height 1s, opacity 1s, -moz-transform 1s;
+    -webkit-transition:      font-size 2s, width 3s, height 1s, opacity 1s, -webkit-transform 1s;
+    -o-transition:           font-size 2s, width 3s, height 1s, opacity 1s, -o-transform 1s;
+
+}
+
+
+.capture, .save{
+  position: absolute;
+  top: 0px;
+  width: 93%;
+  z-index: 9999999999999;
+  cursor: pointer;
+  margin: 20px;
+}
+
+.allow_info, .save_info{
+  top: 0;
+  position: absolute;
+  position: absolute;
+  width: 100%;
+}
+
+.close{
+  margin-top: 50px;
+}

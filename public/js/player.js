@@ -2,6 +2,7 @@ var player = {
   init: function(cont){
     var that = this;
     that.channels = [];
+    that.iused = -1;
     //console.log('player init');
     that.HTML5MultiAudioPlayer = new HTML5MultiAudioPlayer({
       "urls":['music/movit_vn.ogg','music/movit_s.mp3'],
@@ -54,16 +55,17 @@ var player = {
       },
       onPlay: function() {
         //console.log("! onPlay");
-        console.log(SUBTITLE)
+        //console.log(SUBTITLE)
       },
       onPlaying: function(data) {
         var time = Math.round(data.current*100) + 240;
 
 
-        for(var i = 0; i < SUBTITLE.length; i++){
 
-           if(SUBTITLE[i].time <= time && SUBTITLE[i+1] && SUBTITLE[i+1].time > time){
-            console.log(SUBTITLE[i].lyr);
+        for(var i = 0; i < SUBTITLE.length; i++){
+           if(SUBTITLE[i].time <= time && SUBTITLE[i+1] && SUBTITLE[i+1].time > time && that.iused!=i){
+            that.iused = i;
+            scene.renewSubtitle(SUBTITLE[i].lyr);
            }
         }
         //if(SUBTITLE[time]) console.log(SUBTITLE[time]);
@@ -72,12 +74,17 @@ var player = {
         //console.log("! onFinish");
       }
     });
-    $('<div>').addClass('play_button').appendTo(cont).on('click', function(){
+
+    // $('<div>').addClass('play_screen').hide().appendTo(cont).on('click', function(){
+    //   that.HTML5MultiAudioPlayer.Play();
+    //   core.updateSpectrum();
+    // });
+
+    $('<div>').addClass('play large button blue').hide().appendTo(cont).on('click', function(){
       that.HTML5MultiAudioPlayer.Play();
       core.updateSpectrum();
-    }
-
-    );
+      $(this).hide();
+    });
   }
 };
 

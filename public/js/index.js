@@ -4,18 +4,18 @@
 var core = {
   init:function(){
     var that = this;
+    //div.save.large.green.button Save
 
-    $('.save').on('click',function(){
-      var req = $.post("json/save",CURRENT_DATA).error(function() { alert("error"); });
-      req.success(function(obj){
-        //console.log(obj);
-        history.pushState(null,null,"/"+obj.enjoyid+window.location.hash);
-      });
-    });
 
     $('.gear').on('click', function(){
-      $('aside > div.hh').toggle();
+      $('aside').toggleClass('hidden');
     });
+
+    $('.close').on('click', function(){
+      $('aside').addClass('hidden');
+    });
+
+
 
 
     var url = "http://api.musixmatch.com/ws/1.1/matcher.subtitle.get?q_track=I%20like%20to%20move%20it&q_artist=Reel%202%20Real&apikey=7ed59907a6e751898a3655efd3ae5d57&format=JSONP&callback=?";
@@ -45,14 +45,41 @@ var core = {
 
     this.scene = $('<div>').addClass('scene').appendTo('body article');
 
-    scene.init(this.scene);
+    $('<div class="save_info large green button">').html('You can now adjust your face and eyes with music</br><b>Be Sure, it looks cool!...</b> Then save it').hide().appendTo('body article');
 
+    $('<div class="save large blue button">').html('Save').hide().appendTo(this.scene).on('click',function(){
+      var req = $.post("json/save",CURRENT_DATA).error(function() { alert("error"); });
+      req.success(function(obj){
+        //console.log(obj);
+        history.pushState(null,null,"/"+obj.enjoyid+window.location.hash);
+        window.location.href = "/"+obj.enjoyid+window.location.hash;
+      });
+    });
+
+    scene.init(this.scene);
     player.init(this.scene);
+
     if(!CURRENT_DATA.url){
       tap.init(this.scene);
     } else {
       scene.addImage(CURRENT_DATA.url);
+      $('.play').show();
+       //scene.crazyObjectsContainer.crazyObjects("hide");
+     $.each(PREDEFINED, function(i, v){
+        $('<div class="face">').appendTo(that.scene).css('left',(i-1)*44+4+'px').css('top','4px').css('backgroundImage', 'url('+v.url+')').on('click', function(){
+          scene.addImage(v.url);
+          scene.updateParams(v);
+        });
+     });
     }
+
+
+
+
+
+
+
+
 
     $(".c").slider({
       from: 0,
@@ -68,7 +95,7 @@ var core = {
         CURRENT_DATA.letters[$(this.inputNode[0]).data('letter')].to        = this.inputNode[0].value.split(';')[1];
         CURRENT_DATA.letters[$(this.inputNode[0]).data('letter')].color     = $(this.domNode[0]).find('i.v').css('backgroundColor');
         CURRENT_DATA.letters[$(this.inputNode[0]).data('letter')].channel   = $(this.inputNode[0]).data('channel');
-        console.log(CURRENT_DATA.letters[$(this.inputNode[0]).data('letter')].channel);
+        //console.log(CURRENT_DATA.letters[$(this.inputNode[0]).data('letter')].channel);
       }
 
     });

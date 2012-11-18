@@ -17,11 +17,15 @@ var tap = {
     // standards ... shit
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
     window.URL.createObjectURL = window.URL.createObjectURL || window.URL.webkitCreateObjectURL || window.URL.mozCreateObjectURL || window.URL.msCreateObjectURL;
-
+    $('<div>').addClass('allow large blue button').appendTo('body article').html('Hey, allow to use your camera ;)');
     navigator.getUserMedia({video: true}, function(stream) {
       that.tapVideo[0].src = window.URL.createObjectURL(stream);
+      $('.allow').hide();
       that.tapStream = stream;
-      $('<div>').addClass('play_button large red button').html('Capture').appendTo(container).on('click',function(){that.captureImage();});
+      $('<div>').addClass('capture_info large blue button').html('Open your mouth a bit and adjust your face with the squares<br>Then click <b>"capture"</b>').appendTo('body article');
+      $('<div>').addClass('capture large red button').html('Capture').appendTo(container).on('click',function(){
+        that.captureImage();
+      });
       //console.log(that.tapStream);
     }, function(){
       console.log('stream failed :P');
@@ -40,6 +44,11 @@ var tap = {
       //console.log(url)
       CURRENT_DATA.url = url;
       that.tapContainer.remove();
+      $('.capture').remove();
+      $('.capture_info').remove();
+      $('.save').show();
+      $('.save_info').show();
+      $('.play').show();
     }
   }
 };

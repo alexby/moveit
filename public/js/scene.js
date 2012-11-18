@@ -11,17 +11,12 @@ var scene = {
     }
 that.stroboCount = 0;
     that.moveItCrazyItems = [
-      {'key':'mouth','object':'<div></div>', originalWidth: 140, originalHeight:80, maxSize: { width:450, height:450 }, minSize: { width:50, height:50 }},
-      {'key':'eye1','object':'<div></div>', originalWidth: 80, originalHeight:60, maxSize: { width:450, height:450 }, minSize: { width:50, height:50 }},
-      {'key':'eye2','object':'<div></div>', originalWidth: 80, originalHeight:60, maxSize: { width:450, height:450 }, minSize: { width:50, height:50 }},
+      {'key':'mouth','object':'<div></div>', originalWidth: 140, originalHeight:80, maxSize: { width:450, height:450 }, minSize: { width:20, height:20 }},
+      {'key':'eye1','object':'<div></div>', originalWidth: 80, originalHeight:60, maxSize: { width:450, height:450 }, minSize: { width:20, height:20 }},
+      {'key':'eye2','object':'<div></div>', originalWidth: 80, originalHeight:60, maxSize: { width:450, height:450 }, minSize: { width:20, height:20 }},
     ];
 
-    var extendMoveItCrazyParameters = function(){
-      $.each(CURRENT_DATA.moveItCrazyParameters,function(i, v){
-        v.center = {x: v.left + v.width/2, y: v.top + v.height/2};
-        v.keydots = [{x: v.left, y: v.top + v.height/2}, {x: v.left + v.width, y: v.top + v.height/2}];
-      });
-    };
+
 
 
 //console.log('=============> CURRENT_DATA.moveItCrazyParameters ----------->',JSON.stringify(CURRENT_DATA.moveItCrazyParameters));
@@ -52,8 +47,8 @@ that.stroboCount = 0;
       },
       onChanged: function(moveItCrazyParameters) {
         CURRENT_DATA.moveItCrazyParameters = moveItCrazyParameters;
-        extendMoveItCrazyParameters();
-        console.log( CURRENT_DATA.moveItCrazyParameters);
+        that.extendMoveItCrazyParameters();
+        console.log(JSON.stringify(CURRENT_DATA.moveItCrazyParameters));
         // if(!core.edit) return;
         // core.image_parameters = data;
         // widget.preferences.setValue("image_parameters", JSON_stringify(core.image_parameters), { doNotPushToUndoStack:true });
@@ -63,9 +58,41 @@ that.stroboCount = 0;
     that.scene.crazyObjects("hide");
 
 
-    extendMoveItCrazyParameters(CURRENT_DATA.moveItCrazyParameters);
+    that.extendMoveItCrazyParameters();
 
 
+  },
+
+  extendMoveItCrazyParameters:function(p){
+      $.each(CURRENT_DATA.moveItCrazyParameters,function(i, v){
+        v.center = {x: v.left + v.width/2, y: v.top + v.height/2};
+        v.keydots = [{x: v.left, y: v.top + v.height/2}, {x: v.left + v.width, y: v.top + v.height/2}];
+      });
+    //};
+  },
+
+  renewSubtitle: function(text){
+    var that = this;
+    $('.subtitle').addClass('fade');
+    var deg = (Math.random()*(6)-3);
+    var bottom = (Math.random()*(10)+20);
+    var font = (Math.random()*(10)+20);
+    //console.log(deg, scale);
+    var a = $('<div class="subtitle">').appendTo(that.scene).html(text).css({
+      "font-size":65-text.length+"px",
+      "bottom":bottom+"px",
+      "-webkit-transform": "scale(1) rotate("+deg+"deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg)",
+    });
+
+    setTimeout(function(){
+       a.addClass('fadein');
+    },100);
+  },
+
+  updateParams:function(v){
+    var that = this;
+    CURRENT_DATA.moveItCrazyParameters = v.moveItCrazyParameters;
+    that.extendMoveItCrazyParameters();
   },
 
 
@@ -98,9 +125,9 @@ that.stroboCount = 0;
       //console.log(mouth.center.x, mouth.center.y, mouth.width/2);
 
       if(channel == 0){
-        out = src.bulgePinch(mouth.center.x, mouth.center.y, mouth.width/2, sounds.a*4-2);
-        out = src.bulgePinch(mouth.center.x+mouth.width/4, mouth.center.y, mouth.width/2, sounds.a*4-1.5);
-        out = src.bulgePinch(mouth.center.x-mouth.width/4, mouth.center.y, mouth.width/2, sounds.a*4-1.5);
+        out = src.bulgePinch(mouth.center.x, mouth.center.y, mouth.width/2, sounds.a*3-1);
+        out = src.bulgePinch(mouth.center.x+mouth.width/4, mouth.center.y, mouth.width/2, sounds.a*3-1.5);
+        out = src.bulgePinch(mouth.center.x-mouth.width/4, mouth.center.y, mouth.width/2, sounds.a*3-1.5);
         //out = src.bulgePinch(400, 360, 100, -0.2);
         out = src.swirl(mouth.keydots[0].x, mouth.keydots[0].y, mouth.width/3, (sounds.i*2-1));
         out = src.swirl(mouth.keydots[1].x, mouth.keydots[1].y, mouth.width/3, -(sounds.i*2-1));
