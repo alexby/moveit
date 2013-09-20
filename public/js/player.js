@@ -5,82 +5,40 @@ var player = {
     that.iused = -1;
     //console.log('player init');
     that.HTML5MultiAudioPlayer = new HTML5MultiAudioPlayer({
-      "urls":['music/movit_vn.ogg','music/movit_s.mp3'],
+      "urls":['music/movit_vn.ogg','music/movit_s.ogg'],
       onReady: function() {
-
         var   createChannel =  function(source,dest){
-          //var that = this;
           var channel = {};
           channel.audioSource = that.context.createMediaElementSource(source);
           channel.audioAnalyser = that.context.createAnalyser();
           channel.audioAnalyser.fftSize = 2048;
-          // channel.audioAnalyserR = that.context.createAnalyser();
-          // channel.audioAnalyserR.fftSize = 2048;
-
-          //channel.audioFilter   = that.context.createBiquadFilter();
-
-          //channel.audioSplitter = that.context.createChannelSplitter(2);
-
-          // make source - filter - analyser - descination channel ;)
-
-
-          //channel.audioSource.connect(channel.audioFilter);
           channel.audioSource.connect(channel.audioAnalyser);
-          //channel.audioFilter.connect(channel.audioAnalyser);
-          //that.audioSource.connect(that.audioDestination);
-
-          //console.log('==========================',channel.audioSplitter);
-
-          //channel.audioSplitter.connect(channel.audioAnalyserL, 0, 0);
-          //channel.audioSplitter.connect(channel.audioAnalyserR, 1, 0);
-          //channel.audioSplitter.connect(delayR, 1, 0);
-          //channel.audioFilter  .connect(channel.audioAnalyser);
           channel.audioAnalyser.connect(dest);
-          //channel.audioAnalyserR.connect(that.audioDestination);
           return channel;
         };
 
-
-        console.log("! onReady");
-        console.log(this._audioList);
-
-        // that.audioSoundSource = ;
-        // that.audioVoiceSource = this._audioList[1]._audio;
-
         that.context = new webkitAudioContext();
-
         that.channels.push(createChannel(this._audioList[0]._audio,that.context.destination));
         that.channels.push(createChannel(this._audioList[1]._audio,that.context.destination));
-
       },
       onPlay: function() {
         //console.log("! onPlay");
-        //console.log(SUBTITLE)
       },
       onPlaying: function(data) {
         var time = Math.round(data.current*100) + 240;
-
-
-
         for(var i = 0; i < SUBTITLE.length; i++){
-           if(SUBTITLE[i].time <= time && SUBTITLE[i+1] && SUBTITLE[i+1].time > time && that.iused!=i){
+           if(SUBTITLE[i].time <= time && SUBTITLE[i+1] && SUBTITLE[i+1].time > time && that.iused!=i && time>250){
             that.iused = i;
             scene.renewSubtitle(SUBTITLE[i].lyr);
            }
         }
-        //if(SUBTITLE[time]) console.log(SUBTITLE[time]);
       },
       onFinish: function() {
         //console.log("! onFinish");
       }
     });
 
-    // $('<div>').addClass('play_screen').hide().appendTo(cont).on('click', function(){
-    //   that.HTML5MultiAudioPlayer.Play();
-    //   core.updateSpectrum();
-    // });
-
-    $('<div>').addClass('play large button blue').hide().appendTo(cont).on('click', function(){
+    $('<div>').addClass('play large button blue').html('<span class="icon_play"></span>').hide().appendTo(cont).on('click', function(){
       that.HTML5MultiAudioPlayer.Play();
       core.updateSpectrum();
       $(this).hide();
@@ -198,8 +156,6 @@ function HTML5AudioPlayer(params) {
   HTML5AudioPlayer.prototype.GetAudio = function() {
     return this._audio;
   };
-
-
   // auto load track by param's URL
   if(this._options.url && this._options.url.length > 0) {
     this.SetUrl(this._options.url);
@@ -217,9 +173,6 @@ function HTML5MultiAudioPlayer(params) {
     onPause: null,
     onStop: null,
     onFinish: null
-//    onBuffering: null,
-//    onBuffered: null,
-//    onError: null
   };
   this._options = jQuery.extend(defaults, params);
   this._audioList = [];

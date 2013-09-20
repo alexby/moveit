@@ -1,6 +1,3 @@
-
-
-
 var core = {
   init:function(){
     var that = this;
@@ -18,25 +15,19 @@ var core = {
 
 
 
-    var url = "http://api.musixmatch.com/ws/1.1/matcher.subtitle.get?q_track=I%20like%20to%20move%20it&q_artist=Reel%202%20Real&apikey=7ed59907a6e751898a3655efd3ae5d57&format=JSONP&callback=?";
-    jQuery.getJSON(url, function(response) {
-      console.log("=========>>",response.message.body.subtitle.subtitle_body);
-      var arr = response.message.body.subtitle.subtitle_body.split('[');
-      console.log(arr);
-      var obj = {};
-      for (var i = 0; i < arr.length; i++) {
-        var timelyrarr = arr[i].split(']');
-        console.log(timelyrarr);
-        var timearr = timelyrarr[0].split(':');
-        //console.log(parseInt(timearr[0])*3600,parseInt(timearr[1]));
-        var time = Math.round(timearr[0])*6000 + Math.round(timearr[1]*100);
-        console.log(time);
-        SUBTITLE.push({time:time, lyr:timelyrarr[1]});
-        //obj[]
-      };
-      if (response.resultsPage) that.processSearchArtist(loc, response.resultsPage);
-
-    });
+    // var url = "http://api.musixmatch.com/ws/1.1/matcher.subtitle.get?q_track=I%20like%20to%20move%20it&q_artist=Reel%202%20Real&apikey=5f5c5942967409d48dc854f5026f057a&format=JSONP&callback=?";
+    // jQuery.getJSON(url, function(response) {
+    //   var arr = response.message.body.subtitle.subtitle_body.split('[');
+    //   console.log(response.message.body.subtitle.subtitle_body);
+    //   var obj = {};
+    //   for (var i = 0; i < arr.length; i++) {
+    //     var timelyrarr = arr[i].split(']');
+    //     var timearr = timelyrarr[0].split(':');
+    //     var time = Math.round(timearr[0])*6000 + Math.round(timearr[1]*100);
+    //     SUBTITLE.push({time:time, lyr:timelyrarr[1]});
+    //   }
+    //   if (response.resultsPage) that.processSearchArtist(loc, response.resultsPage);
+    // });
 
 
 
@@ -45,10 +36,12 @@ var core = {
 
     this.scene = $('<div>').addClass('scene').appendTo('body article');
 
-    $('<div class="save_info large green button">').html('You can now adjust your face and eyes with music</br><b>Be Sure, it looks cool!...</b> Then save it').hide().appendTo('body article');
+    $('<div class="save_info info large green button">').html('You can now adjust your face and eyes with music</br><b>Be Sure, it looks cool!...</b> Then save it').hide().appendTo('body article');
 
-    $('<div class="save large blue button">').html('Save').hide().appendTo(this.scene).on('click',function(){
+    $('<div class="save large orange button">').html('<span class="icon_play_alt"></span>Save').hide().appendTo(this.scene).on('click',function(){
+      $(this).html('Saving... wait a bit please...');
       var req = $.post("json/save",CURRENT_DATA).error(function() { alert("error"); });
+
       req.success(function(obj){
         //console.log(obj);
         history.pushState(null,null,"/"+obj.enjoyid+window.location.hash);
@@ -64,22 +57,16 @@ var core = {
     } else {
       scene.addImage(CURRENT_DATA.url);
       $('.play').show();
-       //scene.crazyObjectsContainer.crazyObjects("hide");
-     $.each(PREDEFINED, function(i, v){
-        $('<div class="face">').appendTo(that.scene).css('left',(i-1)*44+4+'px').css('top','4px').css('backgroundImage', 'url('+v.url+')').on('click', function(){
-          scene.addImage(v.url);
-          scene.updateParams(v);
+      scene.crazyObjectsContainer.crazyObjects("hide");
+
+      $.each(PREDEFINED, function(i, v){
+        $('<div class="face">').appendTo(that.scene).css('left',(i-1)*44+4+'px').css('top','4px').css('backgroundImage', 'url('+v.url+')')
+          .on('click', function(){
+            scene.addImage(v.url);
+            scene.updateParams(v);
         });
-     });
+      });
     }
-
-
-
-
-
-
-
-
 
     $(".c").slider({
       from: 0,
@@ -95,7 +82,6 @@ var core = {
         CURRENT_DATA.letters[$(this.inputNode[0]).data('letter')].to        = this.inputNode[0].value.split(';')[1];
         CURRENT_DATA.letters[$(this.inputNode[0]).data('letter')].color     = $(this.domNode[0]).find('i.v').css('backgroundColor');
         CURRENT_DATA.letters[$(this.inputNode[0]).data('letter')].channel   = $(this.inputNode[0]).data('channel');
-        //console.log(CURRENT_DATA.letters[$(this.inputNode[0]).data('letter')].channel);
       }
 
     });
@@ -104,11 +90,8 @@ var core = {
       var slight = (channel==0?10:0)
       var data = new Uint8Array(source.frequencyBinCount);
       source.getByteFrequencyData(data);
-
       var sounds = {};
-
       var oSpectrum = [];
-
       for(var l in CURRENT_DATA.letters){
         var letter = CURRENT_DATA.letters[l];
         if(letter.channel == channel){
@@ -123,26 +106,20 @@ var core = {
             sounds[l] += data[i];
           }
         }
-
         var ls = 0;
         var ln = 0;
-
-
         for(var j = -slight; j <= slight; j++){
           if(data[i+j]){
             ls += data[i+j];
             ln++;
           }
         }
-
         oSpectrum[i] = Math.round(ls/ln);
       }
 
       for(var s in sounds){
         var letter = CURRENT_DATA.letters[s];
-        //if(letter.channel == channel){
         sounds[s]= sounds[s] / (letter.to - letter.from) / 256;
-        //}
       }
       return {data:data, oData:oSpectrum, sounds: sounds, letters: CURRENT_DATA.letters};
     }
@@ -150,7 +127,6 @@ var core = {
     function clearDataCanvases(){
       that.spectrumCtx.clearRect(0, 0, that.spectrumCanvas.width, that.spectrumCanvas.height);
     }
-
 
     function drawSpectrum(spectrum, color){
       that.spectrumCtx.lineCap = 'round';
@@ -176,11 +152,8 @@ var core = {
 
 
     that.updateSpectrum = function(time) {
-
       window.webkitRequestAnimationFrame(core.updateSpectrum);
-
       clearDataCanvases();
-
 
       var soundSpectrum = calcSpectrum(player.channels[1].audioAnalyser,1);
       drawSpectrum(soundSpectrum, '#aaaaaa');
@@ -189,18 +162,16 @@ var core = {
       drawSpectrum(voiceSpectrum, '#ffffff');
 
       scene.update(voiceSpectrum,soundSpectrum);
-
     };
   }
 };
 
+window.onload = function() {
+  var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+  $('body').addClass(!is_chrome?'nochrome':'');
+  core.init();
 
 
-
-
-    window.onload = function() {
-      core.init();
-    };
-
+};
 
 
