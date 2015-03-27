@@ -12,61 +12,25 @@ var core = {
       $('aside').addClass('hidden');
     });
 
-
-
-
-    // var url = "http://api.musixmatch.com/ws/1.1/matcher.subtitle.get?q_track=I%20like%20to%20move%20it&q_artist=Reel%202%20Real&apikey=5f5c5942967409d48dc854f5026f057a&format=JSONP&callback=?";
-    // jQuery.getJSON(url, function(response) {
-    //   var arr = response.message.body.subtitle.subtitle_body.split('[');
-    //   console.log(response.message.body.subtitle.subtitle_body);
-    //   var obj = {};
-    //   for (var i = 0; i < arr.length; i++) {
-    //     var timelyrarr = arr[i].split(']');
-    //     var timearr = timelyrarr[0].split(':');
-    //     var time = Math.round(timearr[0])*6000 + Math.round(timearr[1]*100);
-    //     SUBTITLE.push({time:time, lyr:timelyrarr[1]});
-    //   }
-    //   if (response.resultsPage) that.processSearchArtist(loc, response.resultsPage);
-    // });
-
-
-
     that.spectrumCanvas = document.getElementById('spectrum_canvas');
     that.spectrumCtx = that.spectrumCanvas.getContext('2d');
 
     this.scene = $('<div>').addClass('scene').appendTo('body article');
 
-    $('<div class="save_info info large green button">').html('You can now adjust your face and eyes with music</br><b>Be Sure, it looks cool!...</b> Then save it').hide().appendTo('body article');
-
-    $('<div class="save large orange button">').html('<span class="icon_play_alt"></span>Save').hide().appendTo(this.scene).on('click',function(){
-      $(this).html('Saving... wait a bit please...');
-      var req = $.post("json/save",CURRENT_DATA).error(function() { alert("error"); });
-
-      req.success(function(obj){
-        //console.log(obj);
-        history.pushState(null,null,"/"+obj.enjoyid+window.location.hash);
-        window.location.href = "/"+obj.enjoyid+window.location.hash;
-      });
-    });
-
     scene.init(this.scene);
     player.init(this.scene);
 
-    if(!CURRENT_DATA.url){
-      tap.init(this.scene);
-    } else {
-      scene.addImage(CURRENT_DATA.url);
-      $('.play').show();
-      scene.crazyObjectsContainer.crazyObjects("hide");
+	scene.addImage(CURRENT_DATA.url);
+	$('.play').show();
+	scene.crazyObjectsContainer.crazyObjects("hide");
 
-      $.each(PREDEFINED, function(i, v){
-        $('<div class="face">').appendTo(that.scene).css('left',(i-1)*44+4+'px').css('top','4px').css('backgroundImage', 'url('+v.url+')')
-          .on('click', function(){
-            scene.addImage(v.url);
-            scene.updateParams(v);
-        });
-      });
-    }
+	$.each(PREDEFINED, function(i, v){
+	$('<div class="face">').appendTo(that.scene).css('left',(i-1)*44+4+'px').css('top','4px').css('backgroundImage', 'url('+v.url+')')
+	  .on('click', function(){
+		scene.addImage(v.url);
+		scene.updateParams(v);
+	});
+	});
 
     $(".c").slider({
       from: 0,
